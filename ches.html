@@ -1,0 +1,206 @@
+<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Chess Arena HD</title><style>
+:root{--bg:#151513;--panel:#292725;--green:#81b64c;--light:#f0d9b5;--dark:#b58863;--gold:#ffd95a;--red:#e05245}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -20%,#403c36,#171614 55%,#0d0d0c);color:#eee;font-family:Arial,sans-serif}header{height:68px;background:#292725;display:flex;align-items:center;padding:0 28px;gap:35px;box-shadow:0 3px 16px #0009}.logo{font-size:25px;font-weight:900}.logo b{color:var(--green)}nav{display:flex;gap:24px;color:#aaa;font-weight:700}main{width:min(1250px,100%);margin:28px auto;padding:0 18px;display:grid;grid-template-columns:minmax(500px,760px) 350px;gap:25px}.board{display:grid;grid-template-columns:repeat(8,1fr);aspect-ratio:1;border-radius:9px;overflow:hidden;box-shadow:0 18px 40px #000b}.sq{position:relative;display:flex;align-items:center;justify-content:center;cursor:pointer;aspect-ratio:1}.light{background:linear-gradient(135deg,#f4dfbd,#e4c99d)}.dark{background:linear-gradient(135deg,#c09669,#a9784d)}.sq:hover{filter:brightness(1.08)}.piece{font-family:"Segoe UI Symbol","Noto Sans Symbols 2",serif;font-size:clamp(42px,7.8vw,80px);line-height:1;user-select:none;filter:drop-shadow(0 5px 4px #000b);transform:translateY(-1px);transition:transform .12s ease,filter .12s ease}
+.piece:hover{transform:translateY(-3px) scale(1.035);filter:drop-shadow(0 8px 6px #000b)}
+.white{color:#fff;text-shadow:0 1px 0 #ddd,0 2px 0 #aaa,0 4px 0 #777,0 7px 10px #000b}
+.black{color:#171717;text-shadow:0 1px 0 #555,0 2px 0 #050505,0 5px 8px #000b}.selected{box-shadow:inset 0 0 0 5px var(--gold),inset 0 0 35px #ffe27b55}.last{box-shadow:inset 0 0 0 999px #f5dc6650}.check{box-shadow:inset 0 0 0 999px #df493f99}.legal:after{content:"";position:absolute;width:18%;height:18%;border-radius:50%;background:#2228}.capture:after{content:"";position:absolute;inset:8%;border:5px solid #2227;border-radius:50%}.coord{position:absolute;font-size:12px;font-weight:900;opacity:.75;pointer-events:none}.rank{left:5px;top:3px}.file{right:5px;bottom:3px}.light .coord{color:#a9794e}.dark .coord{color:#f0d9b5}.panel{background:linear-gradient(#302e2b,#242321);border:1px solid #ffffff12;border-radius:12px;overflow:hidden;box-shadow:0 12px 35px #0009}.players{padding:14px;background:#3a3836}.player{display:flex;justify-content:space-between;align-items:center;padding:7px 2px}.who{display:flex;align-items:center;gap:10px}.avatar{width:38px;height:38px;border-radius:8px;background:#555;display:grid;place-items:center;font-size:21px}.name{font-weight:800}.rating{font-size:12px;color:#999}.clock{min-width:105px;text-align:center;background:#171614;padding:9px 10px;border-radius:7px;font:800 27px monospace}.clock.active{background:#f5f5f5;color:#111}.clock.low{color:#f56}.status{text-align:center;padding:14px;font-weight:800;border-bottom:1px solid #ffffff10}.moves{height:410px;overflow:auto;padding:10px}.row{display:grid;grid-template-columns:45px 1fr 1fr;padding:8px 10px;border-radius:5px}.row:nth-child(odd){background:#302e2b}.row.current{background:#81b64c33}.controls{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:12px;border-top:1px solid #ffffff10}.btn{border:0;border-radius:7px;padding:13px;background:var(--green);color:#fff;font-weight:900;cursor:pointer}.secondary{background:#555}.hintBtn{background:#d49b2a}.hintFrom{box-shadow:inset 0 0 0 5px #61d4ff,inset 0 0 35px #61d4ff66!important}.hintTo{box-shadow:inset 0 0 0 999px #61d4ff55,inset 0 0 30px #61d4ff88!important}.hintArrow{position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:24px;text-shadow:0 2px 4px #000;pointer-events:none}.help{padding:0 14px 14px;color:#999;font-size:12px;line-height:1.5}.menu{position:fixed;inset:0;background:radial-gradient(circle at 50% 20%,#3d3934,#121211 65%);display:flex;align-items:center;justify-content:center;z-index:20;padding:20px}.menu.hidden{display:none}.menuCard{width:min(560px,96vw);background:linear-gradient(145deg,#35322f,#242321);border:1px solid #ffffff18;border-radius:18px;padding:32px;box-shadow:0 25px 80px #000b;text-align:center}.menuLogo{font-size:44px;font-weight:900;margin-bottom:5px}.menuLogo b{color:var(--green)}.subtitle{color:#aaa;margin:0 0 28px}.menuSection{text-align:left;margin:18px 0}.menuSection h3{margin:0 0 10px;font-size:14px;color:#aaa;text-transform:uppercase;letter-spacing:1px}.choices{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.choice{border:1px solid #ffffff16;background:#45413d;color:#eee;border-radius:9px;padding:13px 8px;font-weight:800;cursor:pointer}.choice.active{background:var(--green);border-color:#9bd466}.startGame{width:100%;margin-top:18px;border:0;border-radius:10px;padding:15px;background:var(--green);color:white;font-size:17px;font-weight:900;cursor:pointer}.botBadge{color:#9bd466;font-size:12px}.backBtn{margin:10px auto 0;display:block;background:none;border:0;color:#aaa;cursor:pointer}.botThinking{opacity:.75}.thinking{animation:pulse 1s infinite}@keyframes pulse{50%{opacity:.55}}.modal{position:fixed;inset:0;background:#0009;display:none;align-items:center;justify-content:center;z-index:10}.modal.show{display:flex}.promo{background:#302e2b;padding:22px;border-radius:14px;box-shadow:0 20px 60px #000;min-width:300px;text-align:center}.promo h2{margin:0 0 15px}.promo button{font-size:42px;width:62px;height:62px;margin:5px;border:0;border-radius:8px;background:#eee;cursor:pointer}.promo button:hover{transform:scale(1.07)}@media(max-width:980px){main{grid-template-columns:1fr;max-width:760px}.moves{height:260px}}@media(max-width:560px){nav{display:none}header{padding:0 14px}main{margin:12px auto;padding:0 7px}.piece{font-size:clamp(32px,11vw,54px)}.clock{min-width:88px;font-size:22px}}
+</style></head><body><div id="menu" class="menu"><div class="menuCard"><div class="menuLogo">♟ <b>Chess</b> Arena</div><p class="subtitle">Pilih mode dan waktu bermain</p><div class="menuSection"><h3>Mode permainan</h3><div class="choices"><button class="choice active" data-mode="pvp">👥 2 Pemain</button><button class="choice" data-mode="bot">🤖 vs Bot</button></div></div><div class="menuSection" id="difficultySection" style="display:none"><h3>Tingkat Bot</h3><div class="choices">
+<button class="choice active" data-difficulty="easy">🟢 Mudah</button>
+<button class="choice" data-difficulty="medium">🟡 Medium</button>
+<button class="choice" data-difficulty="hard">🔴 Susah</button>
+<button class="choice" data-difficulty="extreme">💀 Extreme</button>
+</div></div><div class="menuSection"><h3>Waktu per pemain</h3><div class="choices"><button class="choice active" data-time="1">1 Menit</button><button class="choice" data-time="3">3 Menit</button><button class="choice" data-time="5">5 Menit</button><button class="choice" data-time="10">10 Menit</button><button class="choice" data-time="15">15 Menit</button><button class="choice" data-time="30">30 Menit</button></div></div><button id="startGame" class="startGame">Mulai Bermain</button><button id="menuBtn" class="backBtn">Kembali ke Menu</button></div></div><header><div class="logo">♟ <b>Chess</b> Arena</div><nav><span>Play</span><span>Puzzles</span><span>Learn</span><span>Watch</span></nav></header><main><section><div id="board" class="board"></div></section><aside class="panel"><div class="players"><div class="player"><div class="who"><div class="avatar">♟</div><div><div class="name">Hitam</div><div id="blackLabel" class="rating">Player 2</div></div></div><div id="blackClock" class="clock">10:00</div></div><div class="player"><div class="who"><div class="avatar">♙</div><div><div class="name">Putih</div><div id="whiteLabel" class="rating">Player 1</div></div></div><div id="whiteClock" class="clock active">10:00</div></div></div><div id="status" class="status">Giliran Putih</div><div id="moves" class="moves"></div><div class="controls"><button class="btn" id="newBtn">Game Baru</button><button class="btn secondary" id="undoBtn">Undo</button><button class="btn hintBtn" id="hintBtn">💡 Hint</button><button class="btn secondary" id="clearHintBtn">Hapus Hint</button></div><div class="help">Klik bidak lalu klik tujuan. Skak, skakmat, stalemate, castling, en passant, dan promosi didukung.</div></aside></main><div id="modal" class="modal"><div class="promo"><h2>Pilih promosi pion</h2><div id="promoButtons"></div></div></div>
+<script>
+'use strict';
+const boardEl=document.getElementById('board'),statusEl=document.getElementById('status'),movesEl=document.getElementById('moves'),wClock=document.getElementById('whiteClock'),bClock=document.getElementById('blackClock'),modal=document.getElementById('modal'),promoButtons=document.getElementById('promoButtons');
+const glyph={wp:'♙',wn:'♘',wb:'♗',wr:'♖',wq:'♕',wk:'♔',bp:'♟',bn:'♞',bb:'♝',br:'♜',bq:'♛',bk:'♚'}; const files='abcdefgh';
+let B,turn,selected,lastMove,history,seconds,timer,gameOver,pendingPromotion,hintMove; let mode='pvp', timeLimit=1, started=false, botBusy=false, botDifficulty='easy';
+function newBoard(){B=Array.from({length:8},()=>Array(8).fill(null));const back=['r','n','b','q','k','b','n','r'];for(let c=0;c<8;c++){B[0][c]={c:'b',t:back[c]};B[1][c]={c:'b',t:'p'};B[6][c]={c:'w',t:'p'};B[7][c]={c:'w',t:back[c]}}turn='w';selected=null;lastMove=null;history=[];seconds={w:timeLimit*60,b:timeLimit*60};gameOver=false;pendingPromotion=null;hintMove=null;started=false;botBusy=false}
+function xy(s){return [8-Number(s[1],10),files.indexOf(s[0])]} function name(r,c){return files[c]+(8-r)} function inside(r,c){return r>=0&&r<8&&c>=0&&c<8}
+function cloneBoard(){return B.map(row=>row.map(p=>p?{...p}:null))}
+function findKing(color){for(let r=0;r<8;r++)for(let c=0;c<8;c++)if(B[r][c]?.c===color&&B[r][c]?.t==='k')return[r,c];return null}
+function attacked(r,c,by){ // Is square attacked by color?
+ for(let rr=0;rr<8;rr++)for(let cc=0;cc<8;cc++){const p=B[rr][cc];if(!p||p.c!==by)continue;const dr=r-rr,dc=c-cc,adr=Math.abs(dr),adc=Math.abs(dc);
+  if(p.t==='p'&&dr===(by==='w'?-1:1)&&adc===1)return true;
+  if(p.t==='n'&&((adr===2&&adc===1)||(adr===1&&adc===2)))return true;
+  if(p.t==='k'&&Math.max(adr,adc)===1)return true;
+  if((p.t==='b'||p.t==='q')&&adr===adc&&clear(rr,cc,r,c))return true;
+  if((p.t==='r'||p.t==='q')&&(dr===0||dc===0)&&clear(rr,cc,r,c))return true;
+ }return false;
+}
+function clear(r,c,tr,tc){let dr=Math.sign(tr-r),dc=Math.sign(tc-c);r+=dr;c+=dc;while(r!==tr||c!==tc){if(B[r][c])return false;r+=dr;c+=dc}return true}
+function inCheck(color){const k=findKing(color);return !k||attacked(k[0],k[1],color==='w'?'b':'w')}
+function pseudo(from,to,opts={}){const [r,c]=xy(from),[tr,tc]=xy(to),p=B[r][c],q=B[tr][tc];if(!p||p.c!==turn||q?.c===p.c)return false;const dr=tr-r,dc=tc-c,adr=Math.abs(dr),adc=Math.abs(dc);
+ if(p.t==='p'){const d=p.c==='w'?-1:1,home=p.c==='w'?6:1;if(dc===0&&!q&&dr===d)return true;if(dc===0&&!q&&r===home&&dr===2*d&&!B[r+d][c])return true;if(adc===1&&dr===d&&q&&q.c!==p.c)return true;if(adc===1&&dr===d&&!q&&history.length){const prev=history[history.length-1];if(prev.p.t==='p'&&Math.abs(prev.fr-prev.tr)===2&&prev.tr===r&&prev.tc===tc&&prev.p.c!==p.c)return true}return false}
+ if(p.t==='n')return(adr===2&&adc===1)||(adr===1&&adc===2);if(p.t==='b')return adr===adc&&clear(r,c,tr,tc);if(p.t==='r')return(dr===0||dc===0)&&clear(r,c,tr,tc);if(p.t==='q')return(adr===adc||dr===0||dc===0)&&clear(r,c,tr,tc);if(p.t==='k')return Math.max(adr,adc)===1||(!opts.noCastle&&dr===0&&adr===0&&adc===2&&canCastle(p.c,tc>c?'K':'Q'));return false}
+function canCastle(color,side){const row=color==='w'?7:0, enemy=color==='w'?'b':'w';if(inCheck(color))return false;const king=B[row][4];if(!king||king.t!=='k'||king.c!==color||king.moved)return false;const rookCol=side==='K'?7:0,rook=B[row][rookCol];if(!rook||rook.t!=='r'||rook.c!==color||rook.moved)return false;const between=side==='K'?[5,6]:[1,2,3];if(between.some(c=>B[row][c]))return false;const transit=side==='K'?[5,6]:[3,2];return transit.every(c=>!attacked(row,c,enemy))}
+function makeRaw(from,to,promo=null){const [r,c]=xy(from),[tr,tc]=xy(to),p=B[r][c],captured=B[tr][tc];const h={fr:r,fc:c,tr,tc,p:{...p},captured:captured?{...captured}:null,castle:null,ep:null};
+ if(p.t==='p'&&c!==tc&&!captured){const er=p.c==='w'?tr+1:tr-1;h.ep=B[er][tc]?{r:er,c:tc,p:{...B[er][tc]}}:null;if(h.ep)B[er][tc]=null}
+ if(p.t==='k'&&Math.abs(tc-c)===2){const rc=tc>c?7:0,nc=tc>c?5:3;h.castle={from:[tr,rc],to:[tr,nc],p:{...B[tr][rc]}};B[tr][nc]=B[tr][rc];B[tr][rc]=null}
+ B[tr][tc]={...p};B[r][c]=null;B[tr][tc].moved=true;if(p.t==='p'&&(tr===0||tr===7))B[tr][tc].t=promo||'q';return h}
+function undoRaw(h){B=cloneBoard(); /* reconstructed below via saved board instead */}
+function legalMoves(from){const [r,c]=xy(from),p=B[r][c];if(!p||p.c!==turn)return[];const out=[];for(let tr=0;tr<8;tr++)for(let tc=0;tc<8;tc++){const to=name(tr,tc);if(!pseudo(from,to))continue;const save=cloneBoard(),saveHist=history.length;makeRaw(from,to,'q');const safe=!inCheck(p.c);B=save;history.length=saveHist;if(safe)out.push(to)}return out}
+function doMove(from,to,promo='q'){hintMove=null;const [r,c]=xy(from),[tr,tc]=xy(to),p=B[r][c];const save=cloneBoard(),saveSeconds={...seconds};const h=makeRaw(from,to,promo);h.from=from;h.to=to;h.before=save;h.seconds=saveSeconds;h.turn=turn;history.push(h);lastMove={from,to};turn=turn==='w'?'b':'w';if(p.t==='p'&&(tr===0||tr===7)&&!promo){pendingPromotion={from,to};showPromotion(p.c);return}finishMove()}
+function finishMove(){if(checkGameEnd()){draw();return}started=true;startTimer();renderMoves();draw();if(mode==='bot'&&turn==='b')setTimeout(botMove,80)}
+function showPromotion(color){promoButtons.innerHTML='';for(const t of ['q','r','b','n']){const btn=document.createElement('button');btn.textContent=glyph[color+t];btn.title={q:'Ratu',r:'Benteng',b:'Gajah',n:'Kuda'}[t];btn.onclick=()=>{const h=history[history.length-1];const [tr,tc]=xy(h.to);B[tr][tc].t=t;pendingPromotion=null;modal.classList.remove('show');finishMove()};promoButtons.appendChild(btn)}modal.classList.add('show');draw()}
+function clickSquare(s){if(gameOver||pendingPromotion||seconds[turn]<=0||botBusy||(mode==='bot'&&turn==='b'))return;const p=B[xy(s)[0]][xy(s)[1]];if(selected){if(s===selected){selected=null;draw();return}const moves=legalMoves(selected);if(moves.includes(s)){const [r,c]=xy(selected),piece=B[r][c];doMove(selected,s,(piece.t==='p'&&(xy(s)[0]===0||xy(s)[0]===7))?null:'q');selected=null;draw();return}if(p?.c===turn){selected=s;draw();return}selected=null;draw();return}if(p?.c===turn)selected=s;draw()}
+function allLegalMoves(color){const oldTurn=turn;turn=color;const list=[];for(let r=0;r<8;r++)for(let c=0;c<8;c++){const p=B[r][c];if(p?.c!==color)continue;const from=name(r,c);for(const to of legalMoves(from))list.push({from,to,p:{...p}})}turn=oldTurn;return list}
+function evaluateBoard(color){
+  const val={p:100,n:320,b:330,r:500,q:900,k:20000};
+  let score=0;
+  for(let r=0;r<8;r++)for(let c=0;c<8;c++){
+    const p=B[r][c]; if(!p)continue;
+    score+=(p.c===color?1:-1)*val[p.t];
+  }
+  return score;
+}
+function hint(){
+  if(gameOver||pendingPromotion||botBusy||seconds[turn]<=0)return;
+  const moves=allLegalMoves(turn);
+  if(!moves.length)return;
+  const color=turn;
+  let best=null,bestScore=-Infinity;
+  for(const m of moves){
+    const save=cloneBoard(), saveTurn=turn, saveHist=history.length;
+    const captured=B[xy(m.to)[0]][xy(m.to)[1]];
+    makeRaw(m.from,m.to,(m.p.t==='p'&&(xy(m.to)[0]===0||xy(m.to)[0]===7))?'q':null);
+    let score=evaluateBoard(color);
+    if(inCheck(color==='w'?'b':'w')) score+=50;
+    if(captured) score+=({p:100,n:320,b:330,r:500,q:900,k:20000}[captured.t]||0)*0.7;
+    B=save;turn=saveTurn;history.length=saveHist;
+    if(score>bestScore){bestScore=score;best=m;}
+  }
+  hintMove=best?{from:best.from,to:best.to}:null;
+  selected=null;draw();
+}
+function clearHint(){hintMove=null;draw();}
+
+function botMove(){
+  if(mode!=='bot'||turn!=='b'||gameOver||pendingPromotion||botBusy)return;
+  botBusy=true;
+
+  // Jeda berpikir acak 3–5 detik.
+  const thinkDelay=3000+Math.floor(Math.random()*2001);
+  statusEl.textContent='🤖 Bot sedang berpikir... ('+Math.round(thinkDelay/1000)+' detik)';
+  draw();
+
+  // Biarkan tampilan dan jam diperbarui sebelum bot menghitung langkah.
+  setTimeout(()=>runBotCalculation(),thinkDelay);
+}
+
+function botMoveScore(m){
+  const target=B[xy(m.to)[0]][xy(m.to)[1]];
+  let score=Math.random()*12;
+  const values={p:100,n:320,b:330,r:500,q:900,k:20000};
+  if(target)score+=values[target.t]*0.9;
+  if(m.p.t==='p')score+=15;
+  return score;
+}
+
+function evaluatePosition(color){
+  const values={p:100,n:320,b:330,r:500,q:900,k:20000};
+  let score=0;
+  for(let r=0;r<8;r++)for(let c=0;c<8;c++){
+    const p=B[r][c]; if(!p)continue;
+    score+=(p.c===color?1:-1)*values[p.t];
+  }
+  return score;
+}
+
+function searchBot(color,depth,alpha,beta){
+  const moves=allLegalMoves(color);
+  if(depth===0||!moves.length){
+    if(!moves.length){
+      const old=turn;turn=color;
+      const chk=inCheck(color);
+      turn=old;
+      if(chk)return -999999;
+      return 0;
+    }
+    return evaluatePosition(color);
+  }
+  let best=-Infinity;
+  for(const m of moves){
+    const save=cloneBoard(),oldTurn=turn,oldHist=history.length;
+    makeRaw(m.from,m.to,(m.p.t==='p'&&(xy(m.to)[0]===0||xy(m.to)[0]===7))?'q':null);
+    turn=color==='w'?'b':'w';
+    const score=-searchBot(turn,depth-1,-beta,-alpha);
+    B=save;turn=oldTurn;history.length=oldHist;
+    best=Math.max(best,score);
+    alpha=Math.max(alpha,score);
+    if(alpha>=beta)break;
+  }
+  return best;
+}
+
+function bestBotMove(color,depth){
+  const moves=allLegalMoves(color);
+  let best=-Infinity,bestMoves=[];
+  for(const m of moves){
+    const save=cloneBoard(),oldTurn=turn,oldHist=history.length;
+    makeRaw(m.from,m.to,(m.p.t==='p'&&(xy(m.to)[0]===0||xy(m.to)[0]===7))?'q':null);
+    turn=color==='w'?'b':'w';
+    const score=-searchBot(turn,depth-1,-Infinity,Infinity);
+    B=save;turn=oldTurn;history.length=oldHist;
+    if(score>best){best=score;bestMoves=[m]}
+    else if(score===best)bestMoves.push(m);
+  }
+  return bestMoves[Math.floor(Math.random()*bestMoves.length)];
+}
+
+function runBotCalculation(){
+  if(mode!=='bot'||turn!=='b'||gameOver||pendingPromotion){
+    botBusy=false;return;
+  }
+
+  const list=allLegalMoves('b');
+  if(!list.length){botBusy=false;return;}
+
+  let move;
+  if(botDifficulty==='easy'){
+    const captures=list.filter(m=>B[xy(m.to)[0]][xy(m.to)[1]]);
+    const pool=captures.length&&Math.random()<0.35?captures:list;
+    move=pool[Math.floor(Math.random()*pool.length)];
+    finishBotMove(move);
+  }else if(botDifficulty==='medium'){
+    // Small chunks so the clock remains responsive.
+    const scored=list.map(m=>({m,score:botMoveScore(m)}));
+    scored.sort((a,b)=>b.score-a.score);
+    const top=scored.slice(0,Math.min(4,scored.length));
+    move=top[Math.floor(Math.random()*top.length)].m;
+    setTimeout(()=>finishBotMove(move),20);
+  }else{
+    // Hard/Extreme: search is split from the UI event so the clock can tick.
+    const depth=botDifficulty==='extreme'?3:2;
+    setTimeout(()=>{
+      if(gameOver||turn!=='b'){botBusy=false;return;}
+      move=bestBotMove('b',depth);
+      finishBotMove(move);
+    },25);
+  }
+}
+
+function finishBotMove(move){
+  if(!move||gameOver||turn!=='b'){botBusy=false;return;}
+  const [tr]=xy(move.to);
+  const promo=move.p.t==='p'&&(tr===0||tr===7)?'q':'q';
+  doMove(move.from,move.to,promo);
+  botBusy=false;
+}
+
+function checkGameEnd(){const moves=[];for(let r=0;r<8;r++)for(let c=0;c<8;c++){const p=B[r][c];if(p?.c===turn)moves.push(...legalMoves(name(r,c)))}if(!moves.length){gameOver=true;stopTimer();return true}return false}
+function draw(){boardEl.innerHTML='';const legal=selected?legalMoves(selected):[];for(let r=0;r<8;r++)for(let c=0;c<8;c++){const s=name(r,c),el=document.createElement('div');el.className='sq '+(((r+c)%2)?'dark':'light');if(s===selected)el.classList.add('selected');if(hintMove&&s===hintMove.from)el.classList.add('hintFrom');if(hintMove&&s===hintMove.to)el.classList.add('hintTo');if(lastMove&&(s===lastMove.from||s===lastMove.to))el.classList.add('last');if(legal.includes(s))el.classList.add(B[r][c]?'capture':'legal');const p=B[r][c];if(p){const sp=document.createElement('span');sp.className='piece '+(p.c==='w'?'white':'black');sp.textContent=glyph[p.c+p.t];el.appendChild(sp)}if(inCheck(turn)){const k=findKing(turn);if(k&&k[0]===r&&k[1]===c)el.classList.add('check')}if(c===0){const x=document.createElement('span');x.className='coord rank';x.textContent=8-r;el.appendChild(x)}if(r===7){const x=document.createElement('span');x.className='coord file';x.textContent=files[c];el.appendChild(x)}el.onclick=()=>clickSquare(s);boardEl.appendChild(el)}updateStatus();updateClocks()}
+function renderMoves(){movesEl.innerHTML='';for(let i=0;i<history.length;i+=2){const a=history[i],b=history[i+1],row=document.createElement('div');row.className='row current';row.innerHTML='<b>'+((i/2)+1)+'.</b><span>'+notation(a)+'</span><span>'+(b?notation(b):'')+'</span>';movesEl.appendChild(row)}movesEl.scrollTop=movesEl.scrollHeight}
+function notation(h){const p=h.p;let s=p.t==='p'?'':p.t.toUpperCase();if(h.castle)return h.to[2]==='6'?'O-O':'O-O-O';return s+h.from+(h.captured||h.ep?'x':'-')+h.to+(p.t==='p'&&((xy(h.to)[0]===0)||(xy(h.to)[0]===7))?'='+(B[xy(h.to)[0]][xy(h.to)[1]]?.t||'q').toUpperCase():'')}
+function updateStatus(){let txt;if(seconds[turn]<=0)txt=(turn==='w'?'Hitam':'Putih')+' menang — waktu habis';else if(gameOver){if(inCheck(turn))txt='SKAKMAT — '+(turn==='w'?'Hitam':'Putih')+' menang!';else txt='STALEMATE — Remis';}else if(inCheck(turn))txt='Giliran '+(turn==='w'?'Putih':'Hitam')+' — SKAK!';else txt='Giliran '+(turn==='w'?'Putih':'Hitam');statusEl.textContent=txt}
+function format(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}function updateClocks(){wClock.textContent=format(seconds.w);bClock.textContent=format(seconds.b);wClock.classList.toggle('active',turn==='w'&&!gameOver);bClock.classList.toggle('active',turn==='b'&&!gameOver);wClock.classList.toggle('low',seconds.w<=30);bClock.classList.toggle('low',seconds.b<=30)}
+function startTimer(){if(timer||gameOver)return;timer=setInterval(()=>{seconds[turn]--;if(seconds[turn]<=0){seconds[turn]=0;gameOver=true;stopTimer()}updateClocks();updateStatus()},1000)}function stopTimer(){if(timer){clearInterval(timer);timer=null}}
+function undo(){if(!history.length)return;stopTimer();const h=history.pop();B=h.before;turn=h.turn;seconds={...h.seconds};lastMove=history.length?{from:history[history.length-1].from,to:history[history.length-1].to}:null;gameOver=false;pendingPromotion=null;modal.classList.remove('show');selected=null;started=history.length>0;botBusy=false;renderMoves();draw();if(history.length)startTimer()}
+function reset(){stopTimer();newBoard();renderMoves();draw()}
+document.getElementById('newBtn').onclick=()=>{document.getElementById('menu').classList.remove('hidden');stopTimer()};document.getElementById('undoBtn').onclick=undo;document.getElementById('hintBtn').onclick=hint;document.getElementById('clearHintBtn').onclick=clearHint;
+const menuEl=document.getElementById('menu');const startBtn=document.getElementById('startGame');const modeBtns=[...document.querySelectorAll('[data-mode]')],timeBtns=[...document.querySelectorAll('[data-time]')],difficultyBtns=[...document.querySelectorAll('[data-difficulty]')],difficultySection=document.getElementById('difficultySection');
+modeBtns.forEach(b=>b.onclick=()=>{modeBtns.forEach(x=>x.classList.remove('active'));b.classList.add('active');mode=b.dataset.mode;difficultySection.style.display=mode==='bot'?'block':'none'});timeBtns.forEach(b=>b.onclick=()=>{timeBtns.forEach(x=>x.classList.remove('active'));b.classList.add('active');timeLimit=Number(b.dataset.time)});difficultyBtns.forEach(b=>b.onclick=()=>{difficultyBtns.forEach(x=>x.classList.remove('active'));b.classList.add('active');botDifficulty=b.dataset.difficulty});
+function updateModeUI(){document.getElementById('whiteLabel').textContent=mode==='bot'?'Kamu':'Player 1';document.getElementById('blackLabel').textContent=mode==='bot'?'Bot 🤖 • '+({easy:'Mudah',medium:'Medium',hard:'Susah',extreme:'Extreme'}[botDifficulty]):'Player 2'}
+startBtn.onclick=()=>{updateModeUI();menuEl.classList.add('hidden');reset()};document.getElementById('menuBtn').onclick=()=>{menuEl.classList.remove('hidden');stopTimer()};
+newBoard();draw();menuEl.classList.remove('hidden');
+
+</script></body></html>
